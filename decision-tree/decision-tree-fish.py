@@ -52,9 +52,36 @@ def splitDataSet(dataset,axis,value):
 
 	return retDataset
 
+#选取最好的信息划分特征
+def chooseBestFeatureToSplit(dataset):
+	numFeatures = len(dataset[0])-1#根据第一项样本数据获取特征数
+	baseEntropy = calcShannonEnt(dataset)
+	bestInfoGain = 0.0
+	bestFeature = -1#最好的划分特征序号
+
+	for i in range(numFeatures):
+		featList = [example[i] for example in dataset]#获取样本数据中的第i项特征
+		uniqueVals = set(featList)
+		newEntropy = 0.0
+
+		for value in uniqueVals:
+			subDataSet = splitDataSet(dataset,i,value)
+			prob = len(subDataSet)/float(len(dataset))
+			newEntropy += prob*calcShannonEnt(subDataSet)
+
+		infoGain = baseEntropy - newEntropy#信息增益
+		if(infoGain > bestFeature):
+			bestInfoGain = infoGain
+			bestFeature = i
+
+	return bestFeature			
+
+
 #测试计算香农熵
-print(calcShannonEnt(dataset))
+#print(calcShannonEnt(dataset))
 
 #测试特征选取
-print(splitDataSet(dataset,0,1))
-print(splitDataSet(dataset,0,0))
+#print(splitDataSet(dataset,0,1))#选取序号为0的特征，值为1的数据项
+#print(splitDataSet(dataset,0,0))#选取序号为0的特征，值为0的数据项
+
+print(chooseBestFeatureToSplit(dataset))
