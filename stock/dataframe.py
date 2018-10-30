@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 df = ts.get_hist_data('sz50')
 
-df.to_csv('./sz50.csv')#保存为csv文件
+#df.to_csv('./sz50.csv')#保存为csv文件
 
 print(df[0:10])#序号
 
@@ -30,16 +30,20 @@ df1 = pd.DataFrame(index=dates)
 
 #整合多个数据
 df2 = ts.get_hist_data('600036')#招商银行
-df2.to_csv('./600036.csv')
+#df2.to_csv('./600036.csv')
 df3 = ts.get_hist_data('000001')#平安银行
-df3.to_csv('./000001.csv')
+#df3.to_csv('./000001.csv')
 df1 = df1.join(df2['close'])
 df1.rename(columns={'close':'600036'}, inplace = True)#重命名列
 df1 = df1.join(df3['close'])
 df1.rename(columns={'close':'000001'}, inplace = True)
 
-print(df1)
+#df1.to_csv('./multiple.csv')
+print(df1.values);
+
+df1.fillna(method='ffill',inplace=True)#向后填充缺失数据
 df1.plot()
 plt.show()
+
 
 
