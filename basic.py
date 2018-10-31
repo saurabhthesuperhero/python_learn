@@ -18,6 +18,11 @@ i = randint(0,100)
 
 print(i)
 
+#RANDOM choice
+import random
+myList = [2, 109, False, 10, "Lorem", 482, "Ipsum"]
+random.choice(myList)
+
 # for循环
 
 for i in range(0,5,1):
